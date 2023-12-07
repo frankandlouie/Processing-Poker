@@ -14,15 +14,17 @@ public class poker
   private int [] py = {2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2};
   //[0] - [2]: The flop ; [3]: The turn; [4]: The river
   private int [] fiveX = {3*width/10 - cardWidth/2, 4*width/10 - cardWidth/2, 5*width/10 - cardWidth/2, 6*width/10 - cardWidth/2, 7*width/10 - cardWidth/2};
-  private int [] fiveY = {height/3 - cardHeight/2, height/3 - cardHeight/2, height/3 - cardHeight/2, height/3 - cardHeight/2, height/3 - cardHeight/2};
+  private int [] fiveY = {height/4 - cardHeight/2, height/4 - cardHeight/2, height/4 - cardHeight/2, height/4 - cardHeight/2, height/4 - cardHeight/2};
   //[0]:First burn; ... ; [2]: Third burn
-  private int [] burnX = {width/10, width/10 + cardWidth/2, width/10 + cardWidth};
-  private int [] burnY = {height/10, height/10 + cardHeight/2, height/10 + cardHeight};
+  private int [] burnX = {width/15, width/15 + cardWidth/5, width/15 + 2*cardWidth/5};
+  private int [] burnY = {height/15, height/15 + cardHeight/5, height/15 + 2*cardHeight/5};
   
+  private String [] theBurn = new String [3];
   private String [] theFlop = new String [3];
   private String theTurn = new String();
   private String theRiver = new String();
   
+  private int [] theBurnCardNum = new int [3];
   private int [] theFlopCardNum = new int [3];
   private int theTurnCardNum;
   private int theRiverCardNum;
@@ -142,14 +144,29 @@ public class poker
     py[a] += cardHeight/2;
   }
   
-  public void displayBurnCard()
+  public void displayBurnCards()
   {
-    
+    for(int i = 0; i < 3; i++)
+    {
+      displayCard(deck.deck.get(i).getBackSide(), burnX[i], burnY[i]);
+    }
+  }
+  
+  public void revealBurn()
+  {
+    for(int i = 0; i < 3; i++)
+    {
+      displayCard(theBurn[i], burnX[i], burnY[i]);
+    }
   }
   
   public void burnCard()
   {
-    
+    for(int i = 0; i < 3; i++)
+    {
+      theBurn[i] = deck.getCardName(i);
+      incrementCardCounter();
+    }
   }
   
   public void runGame()
@@ -157,8 +174,11 @@ public class poker
     if(!waveFinished)
     {
       dealCards();
+      burnCard();
       theFlop();
+      burnCard();
       theTurn();
+      burnCard();
       theRiver();
       
       displayPlayerHands(p1, 0);
@@ -169,6 +189,7 @@ public class poker
       displayFlop();
       displayTurn();
       displayRiver();
+      displayBurnCards();
       waveFinished = true;
     }
   }
