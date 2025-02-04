@@ -7,8 +7,10 @@ public class Card
   private String backSide = "backSide.png";
   private String currentCardImage;
   
-  private int cardWidth = 100;
-  private int cardHeight = 150;
+  //private int cardWidth = 100;
+  //private int cardHeight = 150;  
+  private int cardWidth = 1280 / 16;
+  private int cardHeight = 720 / 6;
   
   public Card(char s, int r, String cI)
   {

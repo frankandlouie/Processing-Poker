@@ -4,8 +4,8 @@ public class Player
   private String card2;
   private char rank;
   private char suit;
-  private int cardWidth = 100;
-  private int cardHeight = 150;
+  //private int cardWidth = 100;
+  //private int cardHeight = 150;
   
   public void setCard1(String name)
   {

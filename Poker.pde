@@ -1,17 +1,19 @@
 public class poker
 {
-  final private int width = 1280, height = 720;
-  final private int cardWidth = 100, cardHeight = 150;
+  //final private int width = 1600, height = 900;
+  //final private int cardWidth = 150, cardHeight = 225;
+    final private int width = 1280, height = 720;
+  final private int cardWidth = 1280 / 16, cardHeight = 720 / 6;
   
-  private int p1x = 1*width/5 - cardWidth/2, p1y = 2*height/3;
-  private int p2x = 2*width/5 - cardWidth/2, p2y = 2*height/3;
-  private int p3x = 3*width/5 - cardWidth/2, p3y = 2*height/3;
-  private int p4x = 4*width/5 - cardWidth/2, p4y = 2*height/3;
-  private int p5x = 5*width/5 - cardWidth/2, p5y = 2*height/3;
+  private int p1x = 1*width/6 - cardWidth/2, p1y = 2*height/3 - cardHeight/2;
+  private int p2x = 2*width/6 - cardWidth/2, p2y = 2*height/3 - cardHeight/2;
+  private int p3x = 3*width/6 - cardWidth/2, p3y = 2*height/3 - cardHeight/2;
+  private int p4x = 4*width/6 - cardWidth/2, p4y = 2*height/3 - cardHeight/2;
+  private int p5x = 5*width/6 - cardWidth/2, p5y = 2*height/3 - cardHeight/2;
 
   //[0]: p1xy; [1]: p2xy; ... ; [4]: p5xy
-  private int [] px = {1*width/6 - cardWidth/2, 2*width/6 - cardWidth/2, 3*width/6 - cardWidth/2, 4*width/6 - cardWidth/2, 5*width/6 - cardWidth/2};
-  private int [] py = {2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2};
+  private int [] px = new int[5]; //{1*width/6 - cardWidth/2, 2*width/6 - cardWidth/2, 3*width/6 - cardWidth/2, 4*width/6 - cardWidth/2, 5*width/6 - cardWidth/2};
+  private int [] py = new int[5]; //{2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2, 2*height/3 - cardHeight/2};
   //[0] - [2]: The flop ; [3]: The turn; [4]: The river
   private int [] fiveX = {3*width/10 - cardWidth/2, 4*width/10 - cardWidth/2, 5*width/10 - cardWidth/2, 6*width/10 - cardWidth/2, 7*width/10 - cardWidth/2};
   private int [] fiveY = {height/4 - cardHeight/2, height/4 - cardHeight/2, height/4 - cardHeight/2, height/4 - cardHeight/2, height/4 - cardHeight/2};
@@ -31,6 +33,7 @@ public class poker
 
   
   private int cardCounter = 0;
+  
 
   private Deck deck;
   private Player p1, p2, p3, p4, p5;
@@ -48,6 +51,7 @@ public class poker
     p3 = new Player();
     p4 = new Player();
     p5 = new Player();
+    resetCardCoords();
   }
   
   public void incrementCardCounter()
@@ -169,10 +173,37 @@ public class poker
     }
   }
   
+  public void resetCardCoords()
+  {
+    px[0] = p1x;
+    px[1] = p2x;
+    px[2] = p3x;
+    px[3] = p4x;
+    px[4] = p5x;
+    py[0] = p1y;
+    py[1] = p2y;
+    py[2] = p3y;
+    py[3] = p4y;
+    py[4] = p5y;
+  }
+  
+  public void resetSession()
+  {
+    background(128, 192, 255);
+    textSize(50);
+    textAlign(CENTER);
+    fill(0);
+    text("Simulating new 5 player poker session...", 1280 / 2, 720 / 2);
+    deck.shuffleDeck();
+    cardCounter = 0;
+    resetCardCoords();
+  }
+  
   public void runGame()
   {
     if(!waveFinished)
     {
+      background(128, 192, 255);
       dealCards();
       burnCard();
       theFlop();
@@ -191,6 +222,14 @@ public class poker
       displayRiver();
       displayBurnCards();
       waveFinished = true;
+    }
+    else
+    {
+      if(keyPressed && key == ' ')
+      {
+        resetSession();
+        waveFinished = false;
+      }
     }
   }
 }
